@@ -17,6 +17,7 @@ youtubeUrl = '';
   thumbnailKeys: string[] = [];
   plans:any[] = ['Full HD', 'Medium', 'Standard']
   showError:boolean = false;
+  isLoading:boolean = false;
 
   constructor(private http: HttpClient, private title : Title) {}
   ngOnInit(): void {
@@ -26,17 +27,20 @@ youtubeUrl = '';
   getThumbnail() {
     if (!this.youtubeUrl.trim()) return;
     this.showError = false
+    this.isLoading = true;
     this.http.post('https://thumbnail-backend-g1bn.onrender.com/api/get-thumbnail', { url: this.youtubeUrl })
       .subscribe({
         next: (res: any) => {
           this.showError = false
           this.thumbnails = res.thumbnails;
           this.thumbnailKeys = Object.keys(this.thumbnails);
+          this.isLoading = false;
 
         },
         error: (err:any) => {
           // alert(err.error?.error || 'Something went wrong!');
           if(err.error?.error ){
+            this.isLoading = false;
             this.showError = true
           }
         }
