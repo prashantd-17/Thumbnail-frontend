@@ -1,0 +1,26 @@
+<nav class="nav">
+  <img height="56px" style="border-radius: 30px;" src="../../assets/logo.png" alt="">
+  <h2>YouTube Thumbnail Downloader</h2>
+</nav>
+
+<div class="container">
+
+  <p>This application let you download thumbnails of any YouTube video.<br> 
+    Just paste the URL of the thumbnail video in the below input.</p>
+
+  <input class="main-input w-100" [(ngModel)]="youtubeUrl" (ngModelChange)="getThumbnail()" placeholder="Copy & Paste Any YouTube Link Here..." />
+  <p *ngIf="showError" class="text-danger w-100 text-left">Enter a valid link</p>
+
+
+  <div *ngIf="thumbnails" class="thumbs">
+    <!-- <h3>Preview:</h3> -->
+    <div *ngFor="let key of thumbnailKeys let i = index" class="pos-rel">
+      <p class="text-left">{{ plans[i] }}:</p>
+      <img [src]="thumbnails[key]" alt="thumbnail" width="320" />
+      <br />
+      <button class="download-btn" (click)="downloadThumbnail(thumbnails[key], key)">
+        Download
+      </button>
+    </div>
+  </div>
+</div>
